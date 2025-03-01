@@ -8,6 +8,7 @@
     "version": "vinxi version"
   },
   "dependencies": {
+    "@fontsource-variable/open-sans": "^5.1.1",
     "@kobalte/core": "^0.13.9",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.0",
