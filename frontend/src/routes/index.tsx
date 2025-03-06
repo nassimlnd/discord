@@ -1,14 +1,30 @@
 import { Title } from "@solidjs/meta";
-import { Button } from "~/components/ui/button";
-import { authStore } from "~/stores/auth";
+import { useNavigate } from "@solidjs/router";
+import { createEffect, createSignal } from "solid-js";
+import { Avatar, AvatarFallback } from "~/components/ui/avatar";
+import { getCurrentUser } from "~/services/auth";
+import User from "~/types/user";
 
 export default function Home() {
-  const currentUser = authStore.user;
+    const navigate = useNavigate();
+    const [user, setUser] = createSignal<User>();
 
-  return (
-    <main>
-      <Title>Hello World</Title>
-      <div>{currentUser()?.displayName}</div>
-    </main>
-  );
+    createEffect(async () => {
+        const user = await getCurrentUser();
+
+        if (user) {
+            setUser(user);
+        } else {
+            navigate("/login");
+        }
+    });
+
+    return (
+        <main>
+            <Title>Accueil</Title>
+            <Avatar>
+                <AvatarFallback>{user()?.displayName[0]}</AvatarFallback>
+            </Avatar>
+        </main>
+    );
 }
